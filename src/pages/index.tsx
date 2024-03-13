@@ -154,7 +154,9 @@ export default function Component() {
   const handleSubmit = () => {
         setLoading(true)
         try{
-        axios.post('http://localhost:5000/predict', selected).then((res) => {
+        axios.post('https://continuing-pierette-takshalabs.koyeb.app/predict', {
+          options: selected
+        }).then((res) => {
 
           console.log(res.data)
           setResult(res.data)

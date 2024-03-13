@@ -12,3 +12,4 @@ scikit-learn
 threadpoolctl
 Werkzeug
 gunicorn
+flask_cors
