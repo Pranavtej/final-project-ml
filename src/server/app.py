@@ -15,7 +15,7 @@ def predict_desease():
     selected_options = request.get_json(force=True)
 
     # prediction
-    result = selected_options
+    result = 'SOME Disease'
     
     return result;
 
