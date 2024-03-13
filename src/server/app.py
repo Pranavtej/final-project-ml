@@ -5,7 +5,7 @@ from flask_cors import CORS
 # model = pickle.load(open('model.pkl','rb'))
 app = Flask(__name__)
 
-CORS(app)  
+CORS(app , resources={r"/*": {"origins": "*"}})  
 @app.route('/')
 def index():
     return render_template('index.html')
