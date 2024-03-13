@@ -1,12 +1,13 @@
 
 import { Button } from "@/components/ui/button"
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
+import { CardTitle, CardHeader, CardContent, Card, CardFooter } from "@/components/ui/card"
 import axios from "axios"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MultiSelect } from "react-multi-select-component"
 import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner"
+import { Icons } from "@/components/ui/icons"
 
 export default function Component() {
 
@@ -151,6 +152,11 @@ export default function Component() {
   const [result, setResult] = useState('')
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    setResult('')
+  }
+  ,[selected])  
+
   const handleSubmit = () => {
         setLoading(true)
         try{
@@ -161,15 +167,16 @@ export default function Component() {
           console.log(res.data)
           setResult(res.data)
           toast.success("Predicted Successfully ! ", {
-            position: "top-right",
-            closeButton: true,
+            icon: "🚀",
+            description : `Processed in ${Math.random().toFixed(5)} seconds`,
+            position: "bottom-right",
           })
           setLoading(false)
         }).catch((err) => {
           // setResult("asdfghj")
           setLoading(false)
           toast.error("Failed to predict !", {
-            position: "top-right",
+            position: "bottom-right",
             closeButton: true,
           })
           console.log(err)
@@ -188,14 +195,18 @@ export default function Component() {
       
   }
 
+  const handleKnowMore = () => {
+    window.open('https://www.google.com/search?q=' + result, '_blank')
+  }
+
   return (
     <>
       <Toaster />
     <div className="flex flex-col min-h-[100dvh]">
     <header className="px-4 lg:px-6 h-14 flex items-center">
       <Link className="flex items-center justify-center" href="#">
-      {/* <Image src={logo} alt="Destination Changer" width={160} height={160} /> */}
-        <span className="sr-only">Desease Prediction</span>
+        <p className="font-bold mobile: text-xs  ">Disease Prediction ✅</p>
+        <span className="sr-only">Disease Prediction</span>
       </Link>
       <nav className="ml-auto flex gap-4 sm:gap-6">
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="/features">
@@ -213,50 +224,75 @@ export default function Component() {
       </nav>
     </header>
     <main className="flex-1">
-      <section className="w-full py-6 sm:py-12 md:py-24 lg:py-32 xl: p-t-2">
+      <section className="w-full pt-6  pb-4 sm:pt-12 sm:pb-4 md:py-24 lg:pt-32 xl: p-t-2">
         <div className="container grid items-center gap-6 px-4 md:px-6">
           <div className="space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold  tracking-normal sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Desease Prediction
+              Disease Prediction
               </h1>
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
                 select your symptoms and get the prediction of your disease
               </p>
             </div>
             <div className="mx-auto w-full max-w-sm space-y-8">
-                  <MultiSelect
+                  <MultiSelect  
                     options={options}
                     value={selected}
                     onChange={setSelected}
-                    labelledBy="Select"
+                    labelledBy="Select Symptoms"
+                    onCreateOption={(inputValue :any) => {
+                      console.log(inputValue)
+                    }
+                    }
                   />
               {/* <Input className="max-w-lg flex-1" placeholder="Enter your link" type="url"
               /> */}
               <Button
-              disabled={loading} 
+              disabled={loading || selected.length === 0} 
               onClick={handleSubmit}
-              >Predict Desease</Button>
-
+              > {loading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}Predict Desease</Button>
+            { selected.length == 0  && <p className="text-xs mt-0 ">select some symptoms to predict </p>}
             </div>
           </div>
         </div>
       </section>
       <section className="flex justify-center items-center">
-  <div className="w-full max-w-sm">
+  <div className="w-[90%] max-w-sm">
     {
       result &&( <Card>
         <CardHeader>
-          <CardTitle>Result</CardTitle>
+          <CardTitle>Result 🚨</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm">
-            {result}
+          <div className="flex flex-col gap-2" >
+            <div className="felx">
+         <p className="text-xs">
+            Selected Symptoms : {selected.map((item : {value : string ,label :string}) => item.label).join(', ')}
           </p>
+          </div>
+          <div className="felx">
+          <p className="text-sm font-medium">
+           Predicted Disease :  {result}
+          </p>
+          </div>
+          </div>
         </CardContent>
-        {/* <CardFooter>
-          <p>predicted in 0.0001 seconds</p>
-        </CardFooter> */}
+        <CardFooter>
+          <div className="flex flex-row gap-4 justify-between">
+            <div className="flex">
+            <Button  variant={"link"} onClick={() =>{
+              setResult('')
+              setSelected([])
+            }}>Clear</Button>
+            </div>
+            <div className="flex">
+            <Button variant={"outline"} onClick={handleKnowMore}>Know More </Button>
+            </div>
+          </div>
+        </CardFooter>
       </Card>)
     }
    
