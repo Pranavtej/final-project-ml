@@ -8,7 +8,7 @@ MarkupSafe
 numpy
 scikit-learn
 scipy
-sklearn
+scikit-learn
 threadpoolctl
 Werkzeug
 gunicorn
