@@ -196,16 +196,16 @@ export default function Component() {
         <span className="sr-only">Desease Prediction</span>
       </Link>
       <nav className="ml-auto flex gap-4 sm:gap-6">
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/features">
           Features
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/papers">
           Papers
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/resources">
           Resources
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/team">
           Team
         </Link>
       </nav>
@@ -263,13 +263,13 @@ export default function Component() {
 
     </main>
     <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-      <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 destination changer . All rights reserved.</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 desease-prediction . All rights reserved.</p>
       <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-        <Link className="text-xs hover:underline underline-offset-4" href="#">
-          Terms of Service
+        <Link className="text-xs hover:underline underline-offset-4" href="https://github.com/Pranavtej/final-project-ml">
+          Github
         </Link>
-        <Link className="text-xs hover:underline underline-offset-4" href="#">
-          Privacy
+        <Link className="text-xs hover:underline underline-offset-4" href="https://github.com/Pranavtej/final-project-ml">
+          Model
         </Link>
       </nav>
     </footer>
