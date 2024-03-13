@@ -1,22 +1,23 @@
-# Importing flask module in the project is mandatory
-# An object of Flask class is our WSGI application.
-from flask import Flask
+from flask import Flask,render_template,request
+import pickle
+import numpy as np
 
-# Flask constructor takes the name of 
-# current module (__name__) as argument.
+model = pickle.load(open('model.pkl','rb'))
 app = Flask(__name__)
 
-# The route() function of the Flask class is a decorator, 
-# which tells the application which URL should call 
-# the associated function.
-@app.route('/api/predict', methods=['POST'])
-# ‘/’ URL is bound with hello_world() function.
-def predict():
-	return 'Hello World'
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-# main driver function
+@app.route('/predict',methods=['POST'])
+def predict_placement():
+    selected_options =  request.body.options
+
+    # prediction
+    result = model.predict(np.array(selected_options).reshape(1,6))
+    
+    return result;
+
+
 if __name__ == '__main__':
-
-	# run() method of Flask class runs the application 
-	# on the local development server.
-	app.run()
+    app.run(host='0.0.0.0',port=8080)
