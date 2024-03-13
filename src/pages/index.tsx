@@ -216,7 +216,7 @@ export default function Component() {
           <div className="space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold  tracking-normal sm:text-4xl md:text-5xl lg:text-6xl/none">
-               Desease Pridiction
+              Desease Prediction
               </h1>
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
                 select your symptoms and get the prediction of your disease
