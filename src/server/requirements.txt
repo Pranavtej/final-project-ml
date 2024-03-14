@@ -13,7 +13,6 @@ threadpoolctl
 Werkzeug
 gunicorn
 flask_cors
-pickle
 matplotlib
 pandas
 matplotlib.pyplot
