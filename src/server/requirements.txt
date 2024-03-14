@@ -15,4 +15,3 @@ gunicorn
 flask_cors
 matplotlib
 pandas
-matplotlib.pyplot
