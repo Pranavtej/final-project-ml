@@ -276,7 +276,7 @@ export default function Component() {
               onClick={handleSubmit}
               > {loading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}Predict Desease</Button>
+              )}Predict Disease</Button>
             { selected.length == 0  && <p className="text-xs mt-0 ">select some symptoms to predict </p>}
             </div>
           </div>
@@ -392,7 +392,7 @@ export default function Component() {
     </section>
     </main>
     <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-      <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 desease-prediction . All rights reserved.</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 disease-prediction . All rights reserved.</p>
       <nav className="sm:ml-auto flex gap-4 sm:gap-6">
         <Link className="text-xs hover:underline underline-offset-4" href="https://github.com/Pranavtej/final-project-ml">
           Github
