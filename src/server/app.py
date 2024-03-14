@@ -58,7 +58,7 @@ def generate_input(selected_options ,columns_dict ):
   print()
   new_input = np.zeros((1,x_train.shape[1]))
   for i in selected_options:
-    new_input[0][columns_dict[i["label"]]] = 1
+    new_input[0][columns_dict[i]] = 1
 
   return new_input
 

@@ -169,9 +169,9 @@ export default function Component() {
   const handleSubmit = () => {
         setLoading(true)
         try{
-          console.log(selected)
+          console.log(selected.map((item : {value : string ,label :string}) => item.value))
         axios.post('https://continuing-pierette-takshalabs.koyeb.app/predict', {
-          options: selected
+          options: selected.map((item : {value : string ,label :string}) => item.value)
         }).then((res) => {
 
           console.log(res.data)
