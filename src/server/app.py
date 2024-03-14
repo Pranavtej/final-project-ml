@@ -77,7 +77,7 @@ def predict_desease():
     # prediction
     result = model.predict(new_input)
 
-    return predict_ans[result];
+    return predict_ans[result[0]];
 
 if __name__ == '__main__':
     app.run()
