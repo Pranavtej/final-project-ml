@@ -38,7 +38,7 @@ data.replace({'prognosis':dict1},inplace=True)
 X = data.iloc[:,:131].values
 Y = data.iloc[:,-1].values
 x_train,x_dev,y_train,y_dev = train_test_split(X,Y,test_size = 0.3 , random_state = 42)
-model = pickle.load(open('Multiple_disease_prediction_rf.pkl','rb'))
+model = pickle.load(open('./Multiple_disease_prediction_rf.pkl','rb'))
 app = Flask(__name__)
 
 CORS(app , resources={r"/*": {"origins": "*"}})  
