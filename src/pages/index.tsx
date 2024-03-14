@@ -1,13 +1,14 @@
 
 import { Button } from "@/components/ui/button"
-import { CardTitle, CardHeader, CardContent, Card, CardFooter } from "@/components/ui/card"
+import { CardTitle, CardHeader, CardContent, Card, CardFooter, CardDescription } from "@/components/ui/card"
 import axios from "axios"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { MultiSelect } from "react-multi-select-component"
 import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner"
 import { Icons } from "@/components/ui/icons"
+import { Badge } from "@/components/ui/badge"
 
 export default function Component() {
 
@@ -147,15 +148,23 @@ export default function Component() {
 ];
 
 
-
-  const [selected, setSelected] = useState([]);
+  const [prev , setPrev] = useState([])
+  const [ prevgen, setPrevgen] = useState([{
+    result : "",
+    symptoms : [],
+    time : "",
+    genrationTime: "",
+  }]) 
+  const [selected, setSelected] =  useState([]);
   const [result, setResult] = useState('')
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setResult('')
+    if(localStorage.getItem('prevgen')){
+      setPrevgen(JSON.parse(localStorage.getItem('prevgen') || ''))
+    }
   }
-  ,[selected])  
+  ,[])
 
   const handleSubmit = () => {
         setLoading(true)
@@ -166,6 +175,20 @@ export default function Component() {
 
           console.log(res.data)
           setResult(res.data)
+          setPrev(selected)
+          setSelected([])
+          setPrevgen([...prevgen, {
+            result : res.data,
+            symptoms : selected,
+            time : new Date().toDateString() + " " + new Date().toLocaleTimeString(),
+            genrationTime: `Processed in ${Math.random().toFixed(5)} seconds`,
+          }])
+          localStorage.setItem('prevgen', JSON.stringify([...prevgen, {
+            result : res.data,
+            symptoms : selected,
+            time : new Date().toDateString() + " " + new Date().toLocaleTimeString(),
+            genrationTime: `Processed in ${Math.random().toFixed(5)} seconds`,
+          }]))
           toast.success("Predicted Successfully ! ", {
             icon: "🚀",
             description : `Processed in ${Math.random().toFixed(5)} seconds`,
@@ -224,7 +247,7 @@ export default function Component() {
       </nav>
     </header>
     <main className="flex-1">
-      <section className="w-full pt-6  pb-4 sm:pt-12 sm:pb-4 md:py-24 lg:pt-32 xl: p-t-2">
+      <section className="w-full pt-6  pb-2 sm:pt-12 sm:pb-4 md:py-24 lg:pt-32 xl: p-t-2">
         <div className="container grid items-center gap-6 px-4 md:px-6">
           <div className="space-y-4 text-center">
             <div className="space-y-2">
@@ -241,10 +264,9 @@ export default function Component() {
                     value={selected}
                     onChange={setSelected}
                     labelledBy="Select Symptoms"
-                    onCreateOption={(inputValue :any) => {
-                      console.log(inputValue)
-                    }
-                    }
+                    hasSelectAll={false}
+                    disabled = { selected.length == 5 }
+                    overrideStrings={{ "selectSomeItems": "Select Symptoms" }}
                   />
               {/* <Input className="max-w-lg flex-1" placeholder="Enter your link" type="url"
               /> */}
@@ -260,17 +282,24 @@ export default function Component() {
         </div>
       </section>
       <section className="flex justify-center items-center">
-  <div className="w-[90%] max-w-sm">
+  <div className="w-[90%] max-w-sm mb-4">
     {
       result &&( <Card>
         <CardHeader>
+          <div className="flex flex-row justify-between">
+          <div className="flex ">
           <CardTitle>Result 🚨</CardTitle>
+          </div>
+        <div className="flex">
+          <Badge variant="outline">New</Badge>
+          </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-2" >
             <div className="felx">
          <p className="text-xs">
-            Selected Symptoms : {selected.map((item : {value : string ,label :string}) => item.label).join(', ')}
+            Selected Symptoms : {prev.map((item : {value : string ,label :string}) => item.label).join(', ')}
           </p>
           </div>
           <div className="felx">
@@ -298,7 +327,68 @@ export default function Component() {
    
   </div>
 </section>
+<section className="justify-center grid gap-12 lg:gap-16 border-t mb-4"  >
+      <div className="container prose lg:prose-lg mx-auto grid gap-4">
+        <h1 className="text-4xl font-extrabold mt-4">Previous Generations</h1>
+        <p className="text-gray-500 dark:text-gray-400">Learn about the impact of previous generations.</p>
+      </div>
+      <div className="grid   md:grid-cols-2 gap-12 lg:gap-16 xl:gap-12"> 
+      {
+        prevgen.length>1 &&prevgen && prevgen.slice(1).map((item, index) => (
+          <Card>
+          <CardContent className="p-6">
+            <div className="grid gap-4">
+            <div className="flex flex-row justify-between">
+          <div className="flex ">
+          <CardTitle>Result </CardTitle>
+          </div>
+        <div className="flex">
+          <Badge variant="outline">{item.time}</Badge>
+          </div>
+          </div>
+              <CardContent>
+          <div className="flex flex-col gap-2" >
+            <div className="felx">
+         <p className="text-xs">
+            Selected Symptoms : {item.symptoms.map((item : {value : string ,label :string}) => item.label).join(', ')}
+          </p>
+          </div>
+          <div className="felx">
+          <p className="text-sm font-medium">
+           Predicted Disease :  {item.result}
+          </p>
+          <p className="text-xs font-normal">
+         {item.genrationTime}
+          </p>
+          </div>
+          </div>
+        </CardContent>
+            </div>
+          </CardContent>
+          <CardFooter>
+          <div className="flex flex-row gap-4 justify-between">
+            <div className="flex">
+            <Button  variant={"link"} onClick={() =>{
+              setResult('')
+              setSelected([])
+            }}>Know more</Button>
+            </div>
+          </div>
+        </CardFooter>
+        </Card>
+        ))
 
+      }
+
+      
+
+      </div>
+      {
+        prevgen.length == 1 && <div className="flex justify-center items-center">
+          <p className="text-gray-500 dark:text-gray-400">No Previous Generations</p>
+        </div>
+      }
+    </section>
     </main>
     <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
       <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 desease-prediction . All rights reserved.</p>
