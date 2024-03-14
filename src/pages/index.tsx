@@ -335,7 +335,7 @@ export default function Component() {
       <div className="grid   md:grid-cols-2 gap-12 lg:gap-16 xl:gap-12"> 
       {
         prevgen.length>1 &&prevgen && prevgen.slice(1).map((item, index) => (
-          <Card>
+          <Card key={index}>
           <CardContent className="p-6">
             <div className="grid gap-4">
             <div className="flex flex-row justify-between">
