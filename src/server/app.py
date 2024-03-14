@@ -55,9 +55,10 @@ for i in dict1:
 
 
 def generate_input(selected_options ,columns_dict ):
+  print()
   new_input = np.zeros((1,x_train.shape[1]))
   for i in selected_options:
-    new_input[0][columns_dict[i.label]] = 1
+    new_input[0][columns_dict[i]] = 1
 
   return new_input
 
@@ -69,7 +70,7 @@ def index():
 @app.route('/predict',methods=['POST'])
 def predict_desease():
     selected_options = request.get_json(force=True)
-
+    print("Selected Options", selected_options)
     # prediction
     new_input =  generate_input(selected_options ,columns_dict )
 

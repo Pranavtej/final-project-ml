@@ -169,6 +169,7 @@ export default function Component() {
   const handleSubmit = () => {
         setLoading(true)
         try{
+          console.log(selected)
         axios.post('https://continuing-pierette-takshalabs.koyeb.app/predict', {
           options: selected
         }).then((res) => {
