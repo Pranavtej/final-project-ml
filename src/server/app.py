@@ -72,7 +72,7 @@ def predict_desease():
     selected_options = request.get_json(force=True)
     print("Selected Options", selected_options)
     # prediction
-    new_input =  generate_input(selected_options ,columns_dict )
+    new_input =  generate_input(selected_options["options"] ,columns_dict )
 
     # prediction
     result = model.predict(new_input)
